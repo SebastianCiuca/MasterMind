@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:clickable="true"
+
+        card_view:cardUseCompatPadding="true"
+
+        android:layout_marginBottom="4dp"
+
+        card_view:cardBackgroundColor="#00FF99"
+        card_view:cardCornerRadius="30dp"
+        card_view:cardElevation="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="10dp"
+
+        android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/memoTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/MemoTitle"
+            android:padding="20dp"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/memoTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_below="@id/memoTitleText"
+            android:layout_centerHorizontal="true"
+            android:focusable="false"
+            android:padding="20dp"
+            android:inputType="textCapSentences" />
+
+        <TextView
+            android:id="@+id/memoTitleMemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/MemoMemo"
+            android:layout_below="@id/memoTextTitle"
+            android:padding="20dp"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
+
+
+        <EditText
+            android:id="@+id/memoTextMemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:focusable="false"
+            android:padding="20dp"
+            android:layout_below="@+id/memoTitleMemo"
+            android:inputType="textMultiLine" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,6 @@
+1. Figure out Toaster stuff
+2. Spinner
+3. Set form (Dialog) title
+
+/*
+1.SeeMemos -> form -> Save button -> add to database (uncomment addMemo())
