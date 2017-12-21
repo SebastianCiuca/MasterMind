@@ -13,4 +13,6 @@
     <string name="edit_update_memo">Update Memo</string>
     <string name="edit_delete_memo">Delete Memo</string>
     <string name="add_memo_discard_button">Discard</string>
+    <string name="editlayout_btnchart_fun_facts">Fun Facts</string>
+    <string name="memo_btn_date_reminder">Set Reminder</string>
 </resources>

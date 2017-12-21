@@ -7,13 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SeeMemos extends AppCompatActivity {
 
@@ -144,7 +153,6 @@ public class SeeMemos extends AppCompatActivity {
 
         data.close();
     }
-
 
     /*
             UTILS

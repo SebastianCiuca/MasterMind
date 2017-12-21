@@ -67,6 +67,27 @@
             android:padding="20dp"
             android:layout_below="@+id/memoTitleMemo"
             android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btnChart"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editlayout_btnchart_fun_facts"
+            android:layout_below="@+id/memoTextMemo"
+            android:layout_centerInParent="true"
+            android:layout_margin="15dp"/>
+
+        <Button
+            android:id="@+id/btnDate"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnChart"
+            android:layout_margin="10dp"
+            android:layout_centerInParent="true"
+            android:text="@string/memo_btn_date_reminder" />
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -4,25 +4,26 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder>{
@@ -32,13 +33,16 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
      */
     class MemoViewHolder extends RecyclerView.ViewHolder{
 
-        //reference to the 2 items we are going to change
+        //reference to the items we are going to change
         EditText memoTextTitle, memoTextMemo;
+        Button btnChart, btnDate;
 
         public MemoViewHolder(View itemView) {
             super(itemView);
             memoTextTitle = itemView.findViewById(R.id.memoTextTitle);
             memoTextMemo = itemView.findViewById(R.id.memoTextMemo);
+            btnChart = itemView.findViewById(R.id.btnChart);
+            btnDate = itemView.findViewById(R.id.btnDate);
         }
     }
 
@@ -62,15 +66,12 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
     @Override
     public MemoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater memoLayoutInflater = LayoutInflater.from(ctx);
-        //View view = memoLayoutInflater.inflate(R.layout.activity_see_memos,null); //id of layout we want to inflate; parent
         View view = memoLayoutInflater.inflate(R.layout.memo,null); //id of layout we want to inflate; parent
         return new MemoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MemoViewHolder holder, final int position) {
-        //ar trebui sa se apeleze inca o data cand schimbi
-        //ar trebui sa existe on refresh
+    public void onBindViewHolder(MemoViewHolder holder, final int position) { //holder is final... is it OK? -> to be used in btnDate
         Memo memo = memoList.get(position);
 
         holder.memoTextTitle.setText(memo.getMemoTitle());
@@ -81,6 +82,32 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
             @Override
             public void onClick(View v) {
                                 editMemoForm(memoList.get(position),position);
+            }
+        });
+
+        holder.btnChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog chartView = new Dialog(ctx);
+                chartView.setTitle("Fun facts!");
+                chartView.setContentView(R.layout.memo_chart);
+
+                PieData data = setupPieChart(memoList.get(position));
+
+                PieChart chart = (PieChart) chartView.findViewById(R.id.pieChart);
+                chart.setData(data);
+                chart.animateY(1200);
+                chart.invalidate();
+
+                chartView.show();
+            }
+        });
+
+        holder.btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("com.ubb.zeb.mastermind.DatePickerReminder");
+                ctx.startActivity(intent);
             }
         });
     }
@@ -123,11 +150,11 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
                             Log.d(TAG, "Edit -> update button: The ID is: " + itemID);
                             dbHelper.updateMemo(itemID,newMemo,oldMemo);
                             MemoAdapter.super.notifyDataSetChanged();
+                            toastMessage("Memo successfully updated!");
                         }
                         else
-                            itemID = itemID;//toastMessage -> "No ID associated with that Memo"
+                            toastMessage("No ID associated with that Memo!");
 
-                        //toasterMessage(getApplication(),"Memo successfully saved!");
                         openMail();
                         form.dismiss();
                     }
@@ -138,7 +165,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //toasterMessage(getApplication(),"Memo update discarded!");
+                        toastMessage("Update discarded!");
                         form.dismiss();
                     }
                 }
@@ -162,23 +189,23 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
                                 if (itemID > -1) {
                                     dbHelper.deleteMemo(itemID);
                                     MemoAdapter.super.notifyDataSetChanged();
+                                    toastMessage("Memo successfully deleted!");
                                 }
                                 else
-                                    itemID = itemID;//toastMessage -> "No ID associated with that Memo"
+                                    toastMessage("No ID associated with that Memo!");
 
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                //toastMessage
+                                toastMessage("Delete canceled!");
                                 break;
                         }
                     }
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+                builder.setMessage("Are you sure?").setPositiveButton("Yaasss", dialogClickListener)
+                        .setNegativeButton("Nooo", dialogClickListener).show();
 
                 form.dismiss();
             }
@@ -197,5 +224,41 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MemoViewHolder
         openGmail.setType("message/rfc822");//for putExtra ~ specification for email
         Intent chooser = openGmail.createChooser(openGmail,"Send Email");
         ctx.startActivity(chooser);
+    }
+
+    public PieData setupPieChart(Memo m){
+        boolean borey = true;
+        List<PieEntry> pieEntries = new ArrayList<>();
+        String[] characters = {"!","?",".","/"};
+        String[] names = {"Attentioney","Asky","Pointy","Slashy","Borey"};
+        for (int i = 0; i < characters.length; ++i){
+            int count = StringUtils.countMatches(m.getMemoText(), characters[i]);
+            if (count != 0) {
+                borey = false;
+                pieEntries.add(new PieEntry(count, names[i]));
+            }
+        }
+
+        if(borey)
+            pieEntries.add(new PieEntry(1, names[names.length - 1]));
+
+        PieDataSet dataSet = new PieDataSet(pieEntries,"-> Memo rating");
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        PieData data = new PieData(dataSet);
+
+        return data;
+    }
+
+    /*
+            UTILS
+     */
+
+    /**
+     * Customizable toast.
+     * @param message
+     */
+    public void toastMessage(String message){
+        Toast.makeText(ctx,message,Toast.LENGTH_SHORT).show();
     }
 }

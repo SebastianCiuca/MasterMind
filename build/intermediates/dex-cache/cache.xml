@@ -30,11 +30,20 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/zeb/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v3.0.3/92fb46ea210fc3f0ab1125f28b33cf098583e8cf/MPAndroidChart-v3.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="92fb46ea210fc3f0ab1125f28b33cf098583e8cf">
+        <dex dex="/home/zeb/AndroidStudioProjects/MasterMind/app/build/intermediates/transforms/dex/debug/folders/1000/10/MPAndroidChart-v3.0.3_32004c324034874131e3088a715a41f96f7887a9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/zeb/AndroidStudioProjects/MasterMind/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="9c24a0d31cf24ef767cd3b0bce48a42847e612ab">
+        sha1="ba384b0ed057f924df90c4507622e72ea15573c9">
         <dex dex="/home/zeb/AndroidStudioProjects/MasterMind/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_598030e465196ab62281da5c028d437ed102d83a/classes.dex" />
     </item>
     <item
@@ -126,6 +135,15 @@
         revision="26.0.2"
         sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
         <dex dex="/home/zeb/AndroidStudioProjects/MasterMind/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6c1306df3b99cb8b4217e6f7007e64cf52358683/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/zeb/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.0/8873bd0bb5cb9ee37f1b04578eb7e26fcdd44cb0/commons-lang3-3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8873bd0bb5cb9ee37f1b04578eb7e26fcdd44cb0">
+        <dex dex="/home/zeb/AndroidStudioProjects/MasterMind/app/build/intermediates/transforms/dex/debug/folders/1000/10/commons-lang3-3.0_721604acc41163a3541eb349d9d70998739e7ea4/classes.dex" />
     </item>
 
 </items>
